@@ -1,15 +1,14 @@
 # Hosting your own Dash app with Github Actions
 
-You've made a Dash app with cool visualizations and now you want to share it with others? Github Pages is a great tool to do that! Here are the steps to
-host your Dash app with Github Actions:
+Created a Dash app with impressive visualizations and ready to share it with others? GitHub Pages is an excellent platform for hosting your app! Follow these steps to deploy your Dash app using GitHub Actions:
 
 ## 1. Set up a Github Repository
 
-Create a public Github repository (like the one you see right now) and create a file e.g. `app.py` where the code behind the app will be.
+Set up a public GitHub repository (similar to this one) and add a file `app.py` to store the code for your Dash app.
 
 ## 2. Set up Makefile
 
-To make working with the files easier let's create a Makefile. To do this create a file named `Makefile` in the root directory of your repository with the following code (replace all occurences of `dash-actions-tutorial` with the name of your repository):
+To make working with the files easier, create a Makefile. Add a file named Makefile to the root directory of your repository and include the following code (be sure to replace all instances of dash-actions-tutorial with your repository's name):
 ```
 run_app:
 	python3 app.py & sleep 30
@@ -55,10 +54,14 @@ clean_dirs:
 Let's quickly go over what the file does:
 
 1. We run our app with `python3 app.py` and give it 30 seconds to fully load and generate all files,
+
 2. We need to extract all necessary files from our app to be able to run it on Github Pages. We can do this with `wget` command since Dash hosts our app
 on `http://127.0.0.1:8050/`.
+
 3. We create a new folder named `pages_files` where we will store all necessary files to run the app. Now we just need to move all downloaded files to `pages_files` directory.
-4. (IMPORTANT!) We are going to host this app using Github Pages. If repository's name doesn't match author's name (in this case it doesn't, `dash-actions-tutorial` != `dec0dedd`) Github won't short the URL and the app will be hosted on 'https://dec0dedd.github.io/dash-actions-tutorial/'. This can be a problem, because Dash might start to look for files in the wrong directories. As an example, Dash might want to use file `_dash-component-suites/plotly/package_data/plotly.min.js`, but such file doesn't exist (because there is no such file as `https://dec0dedd.github.io/dash-actions-tutorial/_dash-component-suites/plotly/package_data/plotly.min.js`). Instead we want it to find file `dash-actions-tutorial/_dash-component-suites/plotly/package_data/plotly.min.js`, this way it will look for file in `https://dec0dedd.github.io/dash-actions-tutorial/dash-actions-tutorial/_dash-component-suites/plotly/package_data/plotly.min.js` (and will find it because it's there). To solve this problem we have to use `find` and `sed` commands to search through all the files to replace all occurences of `_dash-component-suites` with `dash-actions-tutorial/_dash-component-suites` (we will also do the same with directories `_dash-layout`, `_dash-dependencies`, `_reload-hash`, `_dash-update-component`, `assets`).
+
+4. (IMPORTANT!) We are going to host this app using GitHub Pages. If the repository name doesn’t match the author's GitHub username (as in this case, where dash-actions-tutorial ≠ dec0dedd), GitHub won’t shorten the URL, so the app will be hosted at 'https://dec0dedd.github.io/dash-actions-tutorial/'. This can lead to issues, as Dash might search for files in incorrect directories. For example, Dash could try to access _dash-component-suites/plotly/package_data/plotly.min.js, but this file won't exist at https://dec0dedd.github.io/dash-actions-tutorial/_dash-component-suites/plotly/package_data/plotly.min.js. Instead, we need Dash to look for the file under dash-actions-tutorial/_dash-component-suites/plotly/package_data/plotly.min.js, so it will search https://dec0dedd.github.io/dash-actions-tutorial/dash-actions-tutorial/_dash-component-suites/plotly/package_data/plotly.min.js and find it. To fix this, we’ll use the find and sed commands to update all file paths by replacing instances of _dash-component-suites with dash-actions-tutorial/_dash-component-suites, and do the same for _dash-layout, _dash-dependencies, _reload-hash, _dash-update-component, and assets directories.
+
 5. Now we just need to move remaining (modified files) to `pages_files` folder to add them to the artifact we'll create later.
 
 ## 3. Create a Github Actions workflow
@@ -128,10 +131,21 @@ jobs:
 Here is a quick description of what every part of the file does:
 
 1. First we have to get access to repository code (to run the app). We can do this with [checkout](https://github.com/actions/checkout) action.
+
 2. Then we need to set up necessary tools with actions:
     - Github Pages using [configure-pages](https://github.com/actions/configure-pages) action,
     - and Python using [setup-python](https://github.com/actions/setup-python) action,
+
 3. Now we need to install all dependencies of our app.
+
 4. Next we run Makefile commands (which will be described later) to generate all HTML/CSS/Js files required for the app to work.
+
 5. We create and upload pages artifact with [upload-pages-artifact](https://github.com/actions/upload-pages-artifact) action.
+
 6. Using previously created artifact we upload all generated files to Github Pages with [deploy-pages](https://github.com/actions/deploy-pages).
+
+## 4. Your Dash app is ready!
+
+If you've followed the steps correctly, your Dash app should now be live at https://{username}.github.io/{repo-name}/. As proof that these instructions work, I've created a sample Dash app in this repository. You can view it here: https://dec0dedd.github.io/dash-actions-tutorial/. For more advanced projects hosted on GitHub Pages, check out my other project, [Alcompare](https://github.com/dec0dedd/alcompare), where I compare and visualize different time series models using financial data. You can explore the hosted pages [here](https://dec0dedd.github.io/alcompare/).
+
+If you have any questions feel free to email me or make an issue/pull request. Thanks for reading!
