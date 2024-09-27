@@ -6,6 +6,8 @@ Created a Dash app with impressive visualizations and ready to share it with oth
 
 Set up a public GitHub repository (similar to this one) and add a file `app.py` to store the code for your Dash app.
 
+**DISCLAIMER**: Since Github Pages can only store static files, you need to use clientside callbacks. In order to turn a callback into a clientside callback, you need to rewrite it with JavaScript (example clientside callback has been put in `app.py`). More info on clientside callbacks can be found [here](https://dash.plotly.com/clientside-callbacks).
+
 ## 2. Set up Makefile
 
 To make working with the files easier, create a Makefile. Add a file named Makefile to the root directory of your repository and include the following code (be sure to replace all instances of dash-actions-tutorial with your repository's name):
