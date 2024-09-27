@@ -4,7 +4,7 @@ Created a Dash app with impressive visualizations and ready to share it with oth
 
 ## 1. Set up a Github Repository
 
-Set up a public GitHub repository (similar to this one) and add a file `app.py` to store the code for your Dash app.
+Set up a public GitHub repository (similar to this one) and add a file `app.py` to store the code for your Dash app. In order to deploy your Dash app from Github Actions you need to update your repository's setting: go to `settings -> Pages` and set `Source` to `GitHub Actions` (under `Build and deployment`).
 
 **DISCLAIMER**: Since Github Pages can only store static files, you need to use clientside callbacks. In order to turn a callback into a clientside callback, you need to rewrite it with JavaScript (example clientside callback has been put in `app.py`). More info on clientside callbacks can be found [here](https://dash.plotly.com/clientside-callbacks).
 
@@ -148,6 +148,6 @@ Here is a quick description of what every part of the file does:
 
 ## 4. Your Dash app is ready!
 
-If you've followed the steps correctly, your Dash app should now be live at https://{username}.github.io/{repo-name}/. As proof that these instructions work, I've created a sample Dash app in this repository. You can view it here: https://dec0dedd.github.io/dash-actions-tutorial/. For more advanced projects hosted on GitHub Pages, check out my other project, [Alcompare](https://github.com/dec0dedd/alcompare), where I compare and visualize different time series models using financial data. You can explore the hosted pages [here](https://dec0dedd.github.io/alcompare/).
+If you've followed the steps correctly, your Dash app should now be live at https://{username}.github.io/{repo-name}/. As proof that these instructions work, I've created a sample Dash app in this repository. You can view it here: https://dec0dedd.github.io/dash-actions-tutorial/. For more advanced projects hosted on GitHub Pages and more ideas for what you can do with Dash, check out my other project, [Alcompare](https://github.com/dec0dedd/alcompare), where I compare and visualize different time series models using financial data. You can explore the hosted pages [here](https://dec0dedd.github.io/alcompare/).
 
 If you have any questions feel free to email me or make an issue/pull request. Thanks for reading!
